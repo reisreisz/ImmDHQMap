@@ -614,15 +614,23 @@
     // 5. Initialize Map with Lands Department GeoCommunity Map Tiles
     const map = L.map('map', { zoomControl: false }).setView([22.3058, 114.2568], 16);
 
+    // Testing by OpenStreetMap
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+      maxZoom: 19,
+      attribution:
+        '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+    }).addTo(map);
+
+    
     // Lands Dept Map Tile Layer (using standard Open Map / Combined Map Service)
-   L.tileLayer('https://mapapi.hkmapservice.gov.hk/gs/api/v1.0.0/xyz/basemap/wgs84/{z}/{x}/{y}.png', {
-        maxZoom: 20,
-        minZoom: 10,
-        attribution:
-          '地圖資料 © 香港特別行政區政府地政總署<br>' +
-          'Map data © Lands Department, The Government of the Hong Kong SAR'
-      }
-    ).addTo(map);
+   //L.tileLayer('https://mapapi.hkmapservice.gov.hk/gs/api/v1.0.0/xyz/basemap/WGS84/{z}/{x}/{y}.png', {
+   //     maxZoom: 20,
+   //     minZoom: 10,
+   //     attribution:
+   //       '地圖資料 © 香港特別行政區政府地政總署<br>' +
+   //       'Map data © Lands Department, The Government of the Hong Kong SAR'
+    //  }
+   // ).addTo(map);
 
     const hqMarker = L.marker(IMMD_HQ).addTo(map)
       .bindPopup(uiStrings[currentLang].hqPopup).openPopup();
