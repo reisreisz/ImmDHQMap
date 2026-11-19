@@ -834,8 +834,11 @@
       if (btnElement) {
         btnElement.classList.add('active');
       }
-    
-      renderOptions(category, 0);
+    // Clear parking polygons immediately when leaving the parking tab
+      if (category !== 'parking') {
+        clearParkingPolygons();
+      }
+        renderOptions(category, 0);
     }
     
     function renderOptions(category, activeIndex) {
@@ -870,6 +873,37 @@
     }
     
     // 8. Draw Your Custom Waypoint Path and Turn Instructions
+    function clearParkingPolygons() {
+      if (parkingPolygons.length > 0) {
+        parkingPolygons.forEach(poly => map.removeLayer(poly));
+        parkingPolygons = [];
+      }
+    }
+    
+    function renderParkingPolygons(selectedParkId = null) {
+      clearParkingPolygons();
+    
+      // Only render parking polygons when the Parking tab is active
+      if (currentCategory !== 'parking') return;
+    
+      transportData.parking.forEach(park => {
+        if (!park.polygon) return;
+    
+        const isSelectedParking = park.id === selectedParkId;
+        const poly = L.polygon(park.polygon, {
+          color: park.color,
+          weight: isSelectedParking ? 3 : 2,
+          opacity: isSelectedParking ? 1 : 0.8,
+          fillColor: park.fillColor,
+          fillOpacity: isSelectedParking ? 0.45 : 0.25
+        })
+          .addTo(map)
+          .bindPopup(`<b>${park.name[currentLang]}</b><br>${park.desc[currentLang]}`);
+    
+        parkingPolygons.push(poly);
+      });
+    }
+    
     function selectRoute(item, cardElement, index) {
       if (parkingPolygons.length > 0) {
         parkingPolygons.forEach(poly => map.removeLayer(poly));
@@ -939,7 +973,8 @@
           routeStepMarkers.push(stepMarker);
         });
       }
-    
+    // Replaces the old parkingPolygons loop/reset block
+      renderParkingPolygons(currentCategory === 'parking' ? item.id : null);
       const stats = calculatePathStats(item.path);
     
       const popupText =
