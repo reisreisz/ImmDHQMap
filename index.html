@@ -490,6 +490,14 @@
             'zh-CN': '乘搭升降机或扶手电梯前往1/F，经唐贤街邮局前往入境事务处总部（行政大楼）',
             'en': 'Take lift/escalator to 1/F, walk past Tong Yin St Post Office to Admin Tower'
           },
+          color: '#0d9488',
+          fillColor: '#2dd4bf',
+          polygon: [
+            [22.30442, 114.25655],
+            [22.30442, 114.25700],
+            [22.30414, 114.25700],
+            [22.30414, 114.25655]
+          ],
           path: [
             [22.3042858, 114.2567717],
             [22.3048613, 114.2567686],
@@ -514,6 +522,14 @@
             'zh-CN': '邻近入境处新总部大楼',
             'en': 'Close to new Immigration HQ'
           },
+          color: '#2563eb',
+          fillColor: '#60a5fa',
+          polygon: [
+            [22.30506, 114.25510],
+            [22.30506, 114.25556],
+            [22.30478, 114.25556],
+            [22.30478, 114.25510]
+          ],
           path: [
             [22.30492, 114.25533],
             [22.30493, 114.25544],
@@ -547,6 +563,14 @@
             'zh-CN': '新界西贡区唐贤街9号',
             'en': '9 Tong Yin Street, Tseung Kwan O'
           },
+          color: '#7c3aed',
+          fillColor: '#a78bfa',
+          polygon: [
+            [22.30720, 114.25850],
+            [22.30720, 114.25896],
+            [22.30692, 114.25896],
+            [22.30692, 114.25850]
+          ],
           path: [
             [22.30706, 114.25873],
             [22.30693, 114.25879],
@@ -575,6 +599,14 @@
             'zh-CN': '车辆入口位于唐德街',
             'en': 'Vehicle entrance via Tong Tak Street'
           },
+          color: '#db2777',
+          fillColor: '#f472b6',
+          polygon: [
+            [22.30721, 114.25812],
+            [22.30721, 114.25858],
+            [22.30693, 114.25858],
+            [22.30693, 114.25812]
+          ],
           path: [
             [22.30707, 114.25835],
             [22.30710, 114.25843],
@@ -602,6 +634,14 @@
             'zh-CN': '位于唐贤街，请按现场指示前往',
             'en': 'Located on Tong Yin Street. Please follow on-site signs.'
           },
+          color: '#059669',
+          fillColor: '#34d399',
+          polygon: [
+            [22.30376, 114.25790],
+            [22.30376, 114.25836],
+            [22.30348, 114.25836],
+            [22.30348, 114.25790]
+          ],
           path: [
             [22.30362, 114.25813],
             [22.30364, 114.25831],
@@ -725,6 +765,7 @@
     let currentLine = null;
     let startMarker = null;
     let routeStepMarkers = [];
+    let parkingPolygons = [];
 
     
         // 6. Switch Language Handler
@@ -815,6 +856,27 @@
     
     // 8. Draw Your Custom Waypoint Path and Turn Instructions
     function selectRoute(item, cardElement, index) {
+      if (parkingPolygons.length > 0) {
+        parkingPolygons.forEach(poly => map.removeLayer(poly));
+        parkingPolygons = [];
+      }
+
+      transportData.parking.forEach(park => {
+        if (!park.polygon) return;
+
+        const isSelectedParking = park.id === item.id;
+        const poly = L.polygon(park.polygon, {
+          color: park.color,
+          weight: isSelectedParking ? 3 : 2,
+          opacity: isSelectedParking ? 1 : 0.8,
+          fillColor: park.fillColor,
+          fillOpacity: isSelectedParking ? 0.45 : 0.25
+        })
+          .addTo(map)
+          .bindPopup(`<b>${park.name[currentLang]}</b><br>${park.desc[currentLang]}`);
+
+        parkingPolygons.push(poly);
+      });
       selectedIndex = index;
     
       document.querySelectorAll('.route-card').forEach(card => {
