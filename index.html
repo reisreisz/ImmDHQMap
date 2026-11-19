@@ -612,7 +612,22 @@
     }
 
     // 5. Initialize Map with Lands Department GeoCommunity Map Tiles
-    const map = L.map('map', { zoomControl: false }).setView([22.3058, 114.2568], 16);
+    
+    // Approximate bounding box for Tseung Kwan O [South, West] to [North, East]
+    const tkoBounds = L.latLngBounds(
+      [22.275, 114.235], // South-West (near Junk Bay / LOHAS Park / Tiu Keng Leng)
+      [22.340, 114.290]  // North-East (near Po Lam / Hang Hau / Clear Water Bay side)
+    );
+    
+    //const map = L.map('map', { zoomControl: false }).setView([22.3058, 114.2568], 16);
+    const map = L.map('map', {
+      zoomControl: false,      // Keeps your custom/disabled zoom control setting
+      maxBounds: tkoBounds,
+      maxBoundsViscosity: 1.0, // Solid boundary when dragging
+      minZoom: 13,             // Prevents zooming out too far
+      maxZoom: 20              // Matches Lands Dept tile maxZoom
+    }).setView([22.3058, 114.2568], 16);
+    
 
     // Testing by OpenStreetMap
     //L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
@@ -641,7 +656,12 @@
           'Map data © Lands Department, The Government of the Hong Kong SAR'
      }
     ).addTo(map);
-
+    const labelsEn = L.tileLayer('https://mapapi.hkmapservice.gov.hk/gs/api/v1.0.0/xyz/label/hk/en/WGS84/{z}/{x}/{y}.png',
+      {
+        maxZoom: 20,
+        minZoom: 8
+      }
+    ).addTo(map);
     
 
     const hqMarker = L.marker(IMMD_HQ).addTo(map)
