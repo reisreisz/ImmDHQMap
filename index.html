@@ -310,7 +310,7 @@
             {
               coords: [22.30448, 114.25295],
               text: {
-                'zh-HK': ''調景嶺站A2出口 出口出發',
+                'zh-HK': '調景嶺站A2出口 出口出發',
                 'zh-CN': '景岭站A2出口出发',
                 'en': 'Start from Tiu Keng Leng Station Exit A2'
               }
@@ -704,12 +704,12 @@
     // Highlight Immigration HQ footprint with a yellow polygon
     // Replace these corner [lat, lng] coordinates with the exact building outline if needed
     const immdHqPolygonCoords = [
-      [22.305666, 114.257061],
-      [22.305150, 114.257281],
-      [22.305900, 114.257748],
-      [22.305669, 114.257791],
-      [22.305644, 114.257724],
-      [22.305349, 114.257834],
+      [22.305666, 114.257061], // West / South-West corner
+      [22.305900, 114.257748], // North / North-East corner
+      [22.305669, 114.257791], // East corner
+      [22.305644, 114.257724], // East step-in
+      [22.305349, 114.257834], // South-East corner
+      [22.305150, 114.257281]  // South / South-West corner
     ];
 
     const immdHqPolygon = L.polygon(immdHqPolygonCoords, {
