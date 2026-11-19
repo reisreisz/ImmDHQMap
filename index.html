@@ -93,6 +93,16 @@
     .route-step-tooltip::before {
       display: none;
     }
+  
+    .bottom-panel { padding: 10px 12px; }
+    .bottom-panel .route-sub { display: none; }
+    .bottom-panel .route-card { padding: 8px 10px; }
+    .bottom-panel.route-collapsed .options-list { display: none; }
+    .panel-toggle { width: 100%; border: 0; background: #eef1f6; color: #1a2b4c;
+      border-radius: 8px; padding: 8px; margin-bottom: 8px; cursor: pointer;
+      text-align: left; font-size: 13px; }
+    body.route-focus .header p { display: none; }
+
   </style>
 </head>
 <body>
@@ -122,6 +132,7 @@
   </div>
 
   <div class="bottom-panel">
+    <button id="panel-toggle" class="panel-toggle" type="button" onclick="toggleRoutePanel()" aria-expanded="true"></button>
     <div class="tabs">
       <button id="tab-mtr" class="tab-btn active" onclick="filterCategory('mtr', this)">🚇 港鐵</button>
       <button id="tab-bus" class="tab-btn" onclick="filterCategory('bus', this)">🚌 巴士/小巴</button>
@@ -710,8 +721,8 @@
 
     // 5. Initialize Map with Lands Department GeoCommunity Map Tiles
     const tkoBounds = L.latLngBounds(
-      [22.312852, 114.252772],
-      [22.303307, 114.268006]
+      [22.310852, 114.249772],
+      [22.301307, 114.264006]
     );
 
     const map = L.map('map', {
@@ -719,7 +730,7 @@
       maxBounds: tkoBounds,
       maxBoundsViscosity: 1.0,
       minZoom: 15,
-      maxZoom: 20
+      maxZoom: 19
     }).setView([22.304825, 114.257536], 16);
 
     // Save the actual initial view.
@@ -912,46 +923,26 @@
       updateLabelLayer(lang);
 
       renderOptions(currentCategory, selectedIndex);
+      updateRoutePanelButton();
+      positionMapCredits();
     }
 
     // 7. Render Custom Transport Options
     function filterCategory(category, btnElement) {
-        currentCategory = category;
-
-  // Keep your existing default route-selection behaviour.
-  selectedIndex = -1//category === 'mtr' || category === 'parking')
-    ? -1
-    : 0;
-
-    document.querySelectorAll('.tab-btn').forEach(button => {
-      button.classList.remove('active');
-    });
-
-    if (btnElement) {
-      btnElement.classList.add('active');
+      currentCategory = category;
+      selectedIndex = -1;
+      document.querySelectorAll('.tab-btn').forEach(button => {
+        button.classList.toggle('active', button === btnElement);
+      });
+      clearActiveRoute();
+      if (category !== 'parking') clearParkingPolygons();
+      if (category !== 'mtr') clearMtrPolygons();
+      setRoutePanelCollapsed(false);
+      renderOptions(category, selectedIndex);
+      map.stop();
+      map.closePopup();
+      map.setView(originalMapCenter, originalMapZoom, { animate: false });
     }
-
-    clearActiveRoute();
-
-    if (category !== 'parking') {
-      clearParkingPolygons();
-    }
-
-    if (category !== 'mtr') {
-      clearMtrPolygons();
-    }
-
-    renderOptions(category, selectedIndex);
-
-    // Reset AFTER renderOptions(), because selecting the default
-    // bus route calls selectRoute(), which changes the map view.
-    map.stop();
-    map.closePopup();
-
-    map.setView(originalMapCenter, originalMapZoom, {
-      animate: false
-    });
-  }
 
     function renderOptions(category, activeIndex) {
       const container = document.getElementById('options-container');
@@ -1113,11 +1104,69 @@
         .bindPopup(popupText)
         .openPopup();
       }
-      map.fitBounds(currentLine.getBounds(), { padding: [75, 75] });
+      map.closePopup();
+      setRoutePanelCollapsed(true);
+      requestAnimationFrame(fitSelectedRoute);
     }
+
+
+    function updateRoutePanelButton() {
+      const collapsed = document.querySelector('.bottom-panel').classList.contains('route-collapsed');
+      const labels = {
+        'zh-HK': ['收起路線列表', '更改路線'],
+        'zh-CN': ['收起路线列表', '更改路线'],
+        'en': ['Hide route list', 'Change route']
+      };
+      const words = labels[currentLang] || labels.en;
+      const item = selectedIndex >= 0 ? transportData[currentCategory][selectedIndex] : null;
+      const button = document.getElementById('panel-toggle');
+      button.textContent = collapsed && item
+        ? item.name[currentLang] + ' — ' + words[1]
+        : words[collapsed ? 1 : 0];
+      button.setAttribute('aria-expanded', String(!collapsed));
+    }
+
+    function positionMapCredits() {
+      const panel = document.querySelector('.bottom-panel');
+      const credits = document.querySelector('.map-attribution');
+      if (credits) credits.style.bottom = (panel.offsetHeight + 8) + 'px';
+    }
+
+    function setRoutePanelCollapsed(collapsed) {
+      document.querySelector('.bottom-panel').classList.toggle('route-collapsed', collapsed);
+      document.body.classList.toggle('route-focus', collapsed);
+      updateRoutePanelButton();
+      positionMapCredits();
+    }
+
+    function fitSelectedRoute() {
+      if (!currentLine) return;
+      const header = document.querySelector('.header');
+      const panel = document.querySelector('.bottom-panel');
+      map.stop();
+      map.invalidateSize({ pan: false });
+      map.fitBounds(currentLine.getBounds(), {
+        paddingTopLeft: [30, header.offsetTop + header.offsetHeight + 25],
+        paddingBottomRight: [30, panel.offsetHeight + 65],
+        animate: false
+      });
+      positionMapCredits();
+    }
+
+    function toggleRoutePanel() {
+      const collapsed = document.querySelector('.bottom-panel').classList.contains('route-collapsed');
+      setRoutePanelCollapsed(!collapsed);
+      requestAnimationFrame(fitSelectedRoute);
+    }
+
+    window.addEventListener('resize', () => {
+      positionMapCredits();
+      requestAnimationFrame(fitSelectedRoute);
+    });
 
     // Initialize default view
     renderOptions('mtr', -1);
+    setRoutePanelCollapsed(false);
   </script>
 </body>
 </html>
