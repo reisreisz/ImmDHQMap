@@ -262,20 +262,10 @@
           },
           path: [
             [22.30448, 114.25295],
-            [22.30456, 114.25305],
-            [22.30462, 114.25298],
-            [22.30472, 114.2531],
-            [22.30466, 114.25314],
-            [22.30468, 114.25318],
-            [22.30473, 114.25327],
-            [22.30477, 114.25333],
-            [22.30477, 114.25336],
-            [22.30479, 114.25342],
-            [22.30481, 114.25344],
-            [22.30478, 114.25346],
-            [22.30474, 114.2535],
-            [22.30466, 114.25357],
-            [22.30459, 114.25363],
+            [22.304490, 114.253119],
+            [22.304488, 114.253140],
+            [22.304312, 114.253325],
+            [22.304575, 114.253650],
             [22.30458, 114.25365],
             [22.30466, 114.25377],
             [22.30471, 114.25391],
@@ -315,6 +305,40 @@
             [22.30549, 114.25624],
             [22.30545, 114.25626],
             IMMD_HQ
+         ],
+          steps: [
+            {
+              coords: [22.30448, 114.25295],
+              text: {
+                'zh-HK': ''調景嶺站A2出口 出口出發',
+                'zh-CN': '景岭站A2出口出发',
+                'en': 'Start from Tiu Keng Leng Station Exit A2'
+              }
+            },
+            {
+              coords: [22.304312, 114.253320],
+              text: {
+                'zh-HK': '橫過沿行翠嶺路向左轉',
+                'zh-CN': '沿行人路向左转',
+                'en': 'Turn left and follow the footpath'
+              }
+            },
+            {
+              coords: [22.30611, 114.25782],
+              text: {
+                'zh-HK': '沿寶邑路繼續步行',
+                'zh-CN': '沿宝邑路继续步行',
+                'en': 'Continue along Po Yap Road'
+              }
+            },
+            {
+              coords: [22.30580, 114.25746],
+              text: {
+                'zh-HK': '前往入境事務處總部入口',
+                'zh-CN': '前往入境事务处总部入口',
+                'en': 'Proceed to the Immigration Headquarters entrance'
+              }
+            }
           ]
         }
       ],
@@ -677,6 +701,27 @@
     const hqMarker = L.marker(IMMD_HQ).addTo(map)
       .bindPopup(uiStrings[currentLang].hqPopup).openPopup();
 
+    // Highlight Immigration HQ footprint with a yellow polygon
+    // Replace these corner [lat, lng] coordinates with the exact building outline if needed
+    const immdHqPolygonCoords = [
+      [22.305666, 114.257061],
+      [22.305150, 114.257281],
+      [22.305900, 114.257748],
+      [22.305669, 114.257791],
+      [22.305644, 114.257724],
+      [22.305349, 114.257834],
+    ];
+
+    const immdHqPolygon = L.polygon(immdHqPolygonCoords, {
+      color: '#d97706',       // Amber/gold border so it stands out cleanly
+      weight: 2.5,
+      opacity: 0.95,
+      fillColor: '#facc15',   // Bright yellow fill
+      fillOpacity: 0.35
+    })
+      .addTo(map)
+      .bindPopup(uiStrings[currentLang].hqPopup);
+    
     let currentLine = null;
     let startMarker = null;
     let routeStepMarkers = [];
@@ -714,6 +759,7 @@
       document.getElementById('tab-parking').textContent = t.tabParking;
     
       hqMarker.setPopupContent(t.hqPopup);
+      immdHqPolygon.setPopupContent(t.hqPopup);
       // Switch map place-name label tiles to match the selected language
       updateLabelLayer(lang);
     
