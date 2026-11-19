@@ -615,8 +615,8 @@
     
     // Approximate bounding box for Tseung Kwan O [South, West] to [North, East]
     const tkoBounds = L.latLngBounds(
-      [22.303063, 114.261492], // South-West (near Junk Bay / LOHAS Park / Tiu Keng Leng)
-      [22.307530, 114.251096]  // North-East (near Po Lam / Hang Hau / Clear Water Bay side)
+      [22.301813, 114.251096], // South-West 
+      [22.307530, 114.261600]  // North-East 
     );
     
     //const map = L.map('map', { zoomControl: false }).setView([22.3058, 114.2568], 16);
@@ -624,7 +624,7 @@
       zoomControl: false,      // Keeps your custom/disabled zoom control setting
       maxBounds: tkoBounds,
       maxBoundsViscosity: 1.0, // Solid boundary when dragging
-      minZoom: 13,             // Prevents zooming out too far
+      minZoom: 15,             // Prevents zooming out too far
       maxZoom: 20              // Matches Lands Dept tile maxZoom
     }).setView([22.3058, 114.2568], 16);
     
@@ -656,12 +656,22 @@
           'Map data © Lands Department, The Government of the Hong Kong SAR'
      }
     ).addTo(map);
-    const labelsEn = L.tileLayer('https://mapapi.hkmapservice.gov.hk/gs/api/v1.0.0/xyz/label/hk/en/WGS84/{z}/{x}/{y}.png',
-      {
-        maxZoom: 20,
-        minZoom: 8
-      }
-    ).addTo(map);
+    const labelLayers = {
+      'zh-HK': L.tileLayer(
+        'https://mapapi.hkmapservice.gov.hk/gs/api/v1.0.0/xyz/label/hk/tc/WGS84/{z}/{x}/{y}.png',
+        { maxZoom: 20, minZoom: 8 }
+      ),
+      'zh-CN': L.tileLayer(
+        'https://mapapi.hkmapservice.gov.hk/gs/api/v1.0.0/xyz/label/hk/sc/WGS84/{z}/{x}/{y}.png',
+        { maxZoom: 20, minZoom: 8 }
+      ),
+      'en': L.tileLayer(
+        'https://mapapi.hkmapservice.gov.hk/gs/api/v1.0.0/xyz/label/hk/en/WGS84/{z}/{x}/{y}.png',
+        { maxZoom: 20, minZoom: 8 }
+      )
+    };
+
+    let activeLabelLayer = labelLayers[currentLang].addTo(map);
     
 
     const hqMarker = L.marker(IMMD_HQ).addTo(map)
@@ -673,6 +683,16 @@
 
     
         // 6. Switch Language Handler
+    function updateLabelLayer(lang) {
+      const nextLayer = labelLayers[lang] || labelLayers['en'];
+      if (activeLabelLayer && activeLabelLayer !== nextLayer && map.hasLayer(activeLabelLayer)) {
+        map.removeLayer(activeLabelLayer);
+      }
+      if (!map.hasLayer(nextLayer)) {
+        nextLayer.addTo(map);
+      }
+      activeLabelLayer = nextLayer;
+    }
     function setLanguage(lang, btnElement) {
       currentLang = lang;
       document.documentElement.lang = lang;
@@ -694,6 +714,8 @@
       document.getElementById('tab-parking').textContent = t.tabParking;
     
       hqMarker.setPopupContent(t.hqPopup);
+      // Switch map place-name label tiles to match the selected language
+      updateLabelLayer(lang);
     
       renderOptions(currentCategory, selectedIndex);
     }
