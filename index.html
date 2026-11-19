@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="zh-Hant">
 <head>
@@ -89,18 +88,18 @@
         font-weight: 600;
         padding: 6px 8px;
         box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
-}
+    }
 
-.route-step-tooltip::before {
-  display: none;
-}
+    .route-step-tooltip::before {
+      display: none;
+    }
   </style>
 </head>
 <body>
 
   <div class="header">
     <div class="header-text">
-      <h1 id="ui-title">入境事務處總部 (行政大樓)</h1>
+      <h1 id="ui-title">入境事務處總部(行政大樓)</h1>
       <p id="ui-subtitle">將軍澳寶邑路61號 • 請在下方選擇交通工具</p>
     </div>
     <div class="lang-switcher" role="group" aria-label="Language Switcher">
@@ -140,12 +139,12 @@
     // 2. App State
     let currentLang = 'zh-HK';
     let currentCategory = 'mtr';
-    let selectedIndex = 0;
+    let selectedIndex = -1;
 
     // 3. Trilingual UI Dictionary
     const uiStrings = {
       'zh-HK': {
-        title: '入境事務處總部 (行政大樓)',
+        title: '入境事務處總部(行政大樓)',
         subtitle: '將軍澳寶邑路61號 • 請在下方選擇交通工具',
         tabMtr: '🚇 港鐵',
         tabBus: '🚌 巴士/小巴',
@@ -155,17 +154,17 @@
         routeEstimate: (mins, meters) => `約 ${mins} 分鐘 (${meters}米)`
       },
       'zh-CN': {
-        title: '入境事务处总部 (行政大楼)',
+        title: '入境事务处总部(行政大楼)',
         subtitle: '将军澳宝邑路61号 • 请在下方选择交通工具',
         tabMtr: '🚇 港铁',
         tabBus: '🚌 公交',
         tabParking: '🅿️ 停车场',
-        hqPopup: '<b>入境事务处总部 (行政大楼)</b><br>将军澳宝邑路61号',
+        hqPopup: '<b>入境事务处总部(行政大楼)</b><br>将军澳宝邑路61号',
         startPrefix: '起点：',
         routeEstimate: (mins, meters) => `约 ${mins} 分钟 (${meters}米)`
       },
       'en': {
-        title: 'Immigration Headquarters (Administration Tower)',
+        title: 'Immigration Headquarters(Administration Tower)',
         subtitle: '61 Po Yap Road, Tseung Kwan O • Select transport below',
         tabMtr: '🚇 MTR',
         tabBus: '🚌 Bus / Minibus',
@@ -191,26 +190,35 @@
             'zh-CN': '自定步行路径',
             'en': 'Custom walking path'
           },
+          color: '#7c3aed',
+          fillColor: '#a78bfa',
+          polygon: [
+            [22.3071382, 114.2589712],
+            [22.3069716, 114.2590374],
+            [22.3075903, 114.2608524],
+            [22.3077636, 114.2607789],
+            [22.3071382, 114.2589712]
+          ],
           path: [
-             [22.30701, 114.25903],
-              [22.30693, 114.25879],
-              [22.30689, 114.25880],
-              [22.30687, 114.25872],
-              [22.30684, 114.25860],
-              [22.30683, 114.25853],
-              [22.30676, 114.25853],
-              [22.30669, 114.25850],
-              [22.30666, 114.25840],
-              [22.30661, 114.25843],
-              [22.30649, 114.25847],
-              [22.30640, 114.25850],
-              [22.30638, 114.25850],
-              [22.30635, 114.25847],
-              [22.30611, 114.25782],
-              [22.30602, 114.25782],
-              [22.30595, 114.25765],
-              [22.30587, 114.25743],
-              [22.30580, 114.25746],
+            [22.30701, 114.25903],
+            [22.30693, 114.25879],
+            [22.30689, 114.25880],
+            [22.30687, 114.25872],
+            [22.30684, 114.25860],
+            [22.30683, 114.25853],
+            [22.30676, 114.25853],
+            [22.30669, 114.25850],
+            [22.30666, 114.25840],
+            [22.30661, 114.25843],
+            [22.30649, 114.25847],
+            [22.30640, 114.25850],
+            [22.30638, 114.25850],
+            [22.30635, 114.25847],
+            [22.30611, 114.25782],
+            [22.30602, 114.25782],
+            [22.30595, 114.25765],
+            [22.30587, 114.25743],
+            [22.30580, 114.25746],
             IMMD_HQ
           ],
           steps: [
@@ -260,6 +268,16 @@
             'zh-CN': '沿宝邑路步行前往',
             'en': 'Walk along Po Yap Road'
           },
+          color: '#0284c7',
+          fillColor: '#38bdf8',
+          polygon: [
+            [22.3034384, 114.2513733],
+            [22.3046417, 114.2527548],
+            [22.304431, 114.2529826],
+            [22.3032174, 114.2515717],
+            [22.3032208, 114.2515717],
+            [22.3034384, 114.2513733]
+          ],
           path: [
             [22.30448, 114.25295],
             [22.304490, 114.253119],
@@ -305,13 +323,13 @@
             [22.30549, 114.25624],
             [22.30545, 114.25626],
             IMMD_HQ
-         ],
+          ],
           steps: [
             {
               coords: [22.30448, 114.25295],
               text: {
                 'zh-HK': '調景嶺站A2出口 出口出發',
-                'zh-CN': '景岭站A2出口出发',
+                'zh-CN': '调景岭站A2出口出发',
                 'en': 'Start from Tiu Keng Leng Station Exit A2'
               }
             },
@@ -346,9 +364,9 @@
         {
           id: 'bus-poyap2',
           name: {
-            'zh-HK': '寶邑路站 (入境事務處總部外)',
-            'zh-CN': '宝邑路站 (入境事务处总部外)',
-            'en': 'Po Yap Road (Outside Immigration Headquarters)'
+            'zh-HK': '寶邑路站 (入境事務處總部外) - 途經路線：96, 290E, 290X, N290, E22A, E22S, N29, 108A, 116',
+            'zh-CN': '宝邑路站 (入境事务处总部外) - 途经路线：96, 290E, 290X, N290, E22A, E22S, N29, 108A, 116',
+            'en': 'Po Yap Road (Outside Immigration Headquarters) - Routes: 96, 290E, 290X, N290, E22A, E22S, N29, 108A, 116'
           },
           desc: {
             'zh-HK': '途經路線：96, 290E, 290X, N290, E22A, E22S, N29, 108A, 116',
@@ -370,9 +388,9 @@
         {
           id: 'bus-poyap',
           name: {
-            'zh-HK': '寶邑路站 (將軍澳中心外)',
-            'zh-CN': '宝邑路站 (将军澳中心外)',
-            'en': 'Po Yap Road (Outside Park Central)'
+            'zh-HK': '寶邑路站 (將軍澳中心外) - 途經路線：108A, 796S, A28, E22A, E22S, E28, N29, 96, 290E, 290X, N290',
+            'zh-CN': '宝邑路站 (将军澳中心外) - 途经路线：108A, 796S, A28, E22A, E22S, E28, N29, 96, 290E, 290X, N290',
+            'en': 'Po Yap Road (Outside Park Central) - Routes: 108A, 796S, A28, E22A, E22S, E28, N29, 96, 290E, 290X, N290'
           },
           desc: {
             'zh-HK': '途經路線：108A, 796S, A28, E22A, E22S, E28, N29, 96, 290E, 290X, N290',
@@ -490,13 +508,13 @@
             'zh-CN': '乘搭升降机或扶手电梯前往1/F，经唐贤街邮局前往入境事务处总部（行政大楼）',
             'en': 'Take lift/escalator to 1/F, walk past Tong Yin St Post Office to Admin Tower'
           },
-          color: '#0d9488',
-          fillColor: '#2dd4bf',
+          color: '#15803d',
+          fillColor: '#4ade80',
           polygon: [
-            [22.304638, 114.25681],
-            [22.304638, 114.257159],
-            [22.303833, 114.257159],
-            [22.303833, 114.25655]
+            [22.304482, 114.256707],
+            [22.304482, 114.257067],
+            [22.303867, 114.257067],
+            [22.303867, 114.256707]
           ],
           path: [
             [22.3042858, 114.2567717],
@@ -513,17 +531,17 @@
         {
           id: 'park-chuishin',
           name: {
-            'zh-HK': '翠嶺路 / 寶邑路停車場',
-            'zh-CN': '翠岭路 / 宝邑路停车场',
+            'zh-HK': '翠嶺路停車場',
+            'zh-CN': '翠岭路停车场',
             'en': 'Chui Shin Street Car Park'
           },
           desc: {
-            'zh-HK': '鄰近入境處新總部大樓',
-            'zh-CN': '邻近入境处新总部大楼',
-            'en': 'Close to new Immigration HQ'
+            'zh-HK': '鄰近入境處總部(執法大樓)',
+            'zh-CN': '邻近入境处总部(执法大楼)', 
+            'en': 'Close to new Immigration Headquarters (Enforcement Tower)'
           },
-          color: '#2563eb',
-          fillColor: '#60a5fa',
+          color: '#15803d',
+          fillColor: '#4ade80',
           polygon: [
             [22.3050396, 114.2546041],
             [22.3052672, 114.2552798],
@@ -573,8 +591,8 @@
             'zh-CN': '新界西贡区唐贤街9号',
             'en': '9 Tong Yin Street, Tseung Kwan O'
           },
-          color: '#7c3aed',
-          fillColor: '#a78bfa',
+          color: '#15803d',
+          fillColor: '#4ade80',
           polygon: [
             [22.3081287, 114.2583976],
             [22.3074548, 114.2586440],
@@ -611,8 +629,8 @@
             'zh-CN': '车辆入口位于唐德街',
             'en': 'Vehicle entrance via Tong Tak Street'
           },
-          color: '#db2777',
-          fillColor: '#f472b6',
+          color: '#15803d',
+          fillColor: '#4ade80',
           polygon: [
             [22.3076687, 114.2580767],
             [22.3073353, 114.2570822],
@@ -647,8 +665,8 @@
             'zh-CN': '位于唐贤街，请按现场指示前往',
             'en': 'Located on Tong Yin Street. Please follow on-site signs.'
           },
-          color: '#059669',
-          fillColor: '#34d399',
+          color: '#15803d',
+          fillColor: '#4ade80',
           polygon: [
             [22.3046717, 114.2579459],
             [22.3046717, 114.2585894],
@@ -691,50 +709,32 @@
     }
 
     // 5. Initialize Map with Lands Department GeoCommunity Map Tiles
-    
-    // Approximate bounding box for Tseung Kwan O [South, West] to [North, East]
     const tkoBounds = L.latLngBounds(
-      [22.301813, 114.251096], // South-West 
-      [22.307530, 114.261600]  // North-East 
+      [22.310852, 114.249772],
+      [22.301307, 114.264006]
     );
-    
-    //const map = L.map('map', { zoomControl: false }).setView([22.3058, 114.2568], 16);
+
     const map = L.map('map', {
-      zoomControl: false,      // Keeps your custom/disabled zoom control setting
+      zoomControl: false,
       maxBounds: tkoBounds,
-      maxBoundsViscosity: 1.0, // Solid boundary when dragging
-      minZoom: 15,             // Prevents zooming out too far
-      maxZoom: 20              // Matches Lands Dept tile maxZoom
+      maxBoundsViscosity: 1.0,
+      minZoom: 17,
+      maxZoom: 19
     }).setView([22.3058, 114.2568], 16);
-    
 
-    // Testing by OpenStreetMap
-    //L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-      //maxZoom: 19,
-      //attribution:
-        //'&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-    //}).addTo(map);
+    // Save the actual initial view.
+    const originalMapCenter = map.getCenter();
+    const originalMapZoom = map.getZoom();
 
-    
-    // Lands Dept Map Tile Layer (using standard Open Map / Combined Map Service)
-   //L.tileLayer('https://mapapi.hkmapservice.gov.hk/gs/api/v1.0.0/xyz/basemap/WGS84/{z}/{x}/{y}.png', {
-   //     maxZoom: 20,
-   //     minZoom: 10,
-   //     attribution:
-   //       '地圖資料 © 香港特別行政區政府地政總署<br>' +
-   //       'Map data © Lands Department, The Government of the Hong Kong SAR'
-    //  }
-   // ).addTo(map);
+    // Lands Dept Map Tile Layer
+    L.tileLayer('https://mapapi.hkmapservice.gov.hk/gs/api/v1.0.0/xyz/basemap/WGS84/{z}/{x}/{y}.png', {
+      maxZoom: 20,
+      minZoom: 10,
+      attribution:
+        '地圖資料 © 香港特別行政區政府地政總署<br>' +
+        'Map data © Lands Department, The Government of the Hong Kong SAR'
+    }).addTo(map);
 
- // Lands Dept Map Tile Layer (using Image Map)
-   L.tileLayer('https://mapapi.hkmapservice.gov.hk/gs/api/v1.0.0/xyz/basemap/WGS84/{z}/{x}/{y}.png', {
-        maxZoom: 20,
-        minZoom: 10,
-        attribution:
-          '地圖資料 © 香港特別行政區政府地政總署<br>' +
-          'Map data © Lands Department, The Government of the Hong Kong SAR'
-     }
-    ).addTo(map);
     const labelLayers = {
       'zh-HK': L.tileLayer(
         'https://mapapi.hkmapservice.gov.hk/gs/api/v1.0.0/xyz/label/hk/tc/WGS84/{z}/{x}/{y}.png',
@@ -751,39 +751,131 @@
     };
 
     let activeLabelLayer = labelLayers[currentLang].addTo(map);
-    
 
     const hqMarker = L.marker(IMMD_HQ).addTo(map)
       .bindPopup(uiStrings[currentLang].hqPopup).openPopup();
 
     // Highlight Immigration HQ footprint with a yellow polygon
-    // Replace these corner [lat, lng] coordinates with the exact building outline if needed
     const immdHqPolygonCoords = [
-      [22.305666, 114.257061], // West / South-West corner
-      [22.305900, 114.257748], // North / North-East corner
-      [22.305669, 114.257791], // East corner
-      [22.305644, 114.257724], // East step-in
-      [22.305349, 114.257834], // South-East corner
-      [22.305150, 114.257281]  // South / South-West corner
+      [22.305666, 114.257061],
+      [22.305900, 114.257748],
+      [22.305669, 114.257791],
+      [22.305644, 114.257724],
+      [22.305349, 114.257834],
+      [22.305150, 114.257281]
     ];
 
     const immdHqPolygon = L.polygon(immdHqPolygonCoords, {
-      color: '#d97706',       // Amber/gold border so it stands out cleanly
+      color: '#d97706',
       weight: 2.5,
       opacity: 0.95,
-      fillColor: '#facc15',   // Bright yellow fill
+      fillColor: '#facc15',
       fillOpacity: 0.35
     })
       .addTo(map)
       .bindPopup(uiStrings[currentLang].hqPopup);
-    
+
     let currentLine = null;
     let startMarker = null;
     let routeStepMarkers = [];
     let parkingPolygons = [];
+    let mtrPolygons = [];
 
-    
-        // 6. Switch Language Handler
+    const busStopLayer = L.layerGroup().addTo(map);
+
+    function renderBusStops() {
+      busStopLayer.clearLayers();
+
+      // Only display stop circles while the bus/minibus tab is active.
+      if (currentCategory !== 'bus') return;
+
+      transportData.bus.forEach((stop, index) => {
+        if (!stop.path || !stop.path.length) return;
+
+        const isSelected = selectedIndex === index;
+
+        const circle = L.circleMarker(stop.path[0], {
+          radius: isSelected ? 12 : 9,
+          color: '#cc0000',
+          weight: isSelected ? 3 : 2,
+          opacity: 1,
+          fillColor: '#ff0000',
+          fillOpacity: isSelected ? 0.45 : 0.2
+        })
+          .bindTooltip(stop.name[currentLang], {
+            direction: 'top',
+            offset: [0, -10],
+            className: 'route-step-tooltip'
+          })
+          .addTo(busStopLayer);
+
+        circle.on('click', () => {
+          const cards = document.querySelectorAll(
+            '#options-container .route-card'
+          );
+
+          selectRoute(stop, cards[index] || null, index);
+        });
+      });
+    }
+
+
+
+    function clearActiveRoute() {
+      if (currentLine) {
+        map.removeLayer(currentLine);
+        currentLine = null;
+      }
+      if (startMarker) {
+        map.removeLayer(startMarker);
+        startMarker = null;
+      }
+      if (routeStepMarkers.length > 0) {
+        routeStepMarkers.forEach(marker => map.removeLayer(marker));
+        routeStepMarkers = [];
+      }
+    }
+
+    function clearMtrPolygons() {
+      if (mtrPolygons.length > 0) {
+        mtrPolygons.forEach(poly => map.removeLayer(poly));
+        mtrPolygons = [];
+      }
+    }
+
+    function renderMtrPolygons(selectedMtrId = null) {
+      clearMtrPolygons();
+
+      if (currentCategory !== 'mtr') return;
+
+      transportData.mtr.forEach((station, index) => {
+        if (!station.polygon) return;
+
+        const isSelected = station.id === selectedMtrId;
+        const poly = L.polygon(station.polygon, {
+          color: station.color || '#0066cc',
+          weight: isSelected ? 3.5 : 2.5,
+          opacity: isSelected ? 1 : 0.85,
+          fillColor: station.fillColor || '#3b82f6',
+          fillOpacity: isSelected ? 0.45 : 0.25
+        })
+          .addTo(map)
+          .bindTooltip(station.name[currentLang], {
+            direction: 'top',
+            className: 'route-step-tooltip'
+          });
+
+        poly.on('click', () => {
+          const cards = document.querySelectorAll('#options-container .route-card');
+          const targetCard = cards[index] || null;
+          selectRoute(station, targetCard, index);
+        });
+
+        mtrPolygons.push(poly);
+      });
+    }
+
+    // 6. Switch Language Handler
     function updateLabelLayer(lang) {
       const nextLayer = labelLayers[lang] || labelLayers['en'];
       if (activeLabelLayer && activeLabelLayer !== nextLayer && map.hasLayer(activeLabelLayer)) {
@@ -794,65 +886,85 @@
       }
       activeLabelLayer = nextLayer;
     }
+
     function setLanguage(lang, btnElement) {
       currentLang = lang;
       document.documentElement.lang = lang;
-    
+
       document.querySelectorAll('.lang-btn').forEach(b => {
         b.classList.remove('active');
       });
-    
+
       if (btnElement) {
         btnElement.classList.add('active');
       }
-    
+
       const t = uiStrings[lang];
-    
+
       document.getElementById('ui-title').textContent = t.title;
       document.getElementById('ui-subtitle').textContent = t.subtitle;
       document.getElementById('tab-mtr').textContent = t.tabMtr;
       document.getElementById('tab-bus').textContent = t.tabBus;
       document.getElementById('tab-parking').textContent = t.tabParking;
-    
+
       hqMarker.setPopupContent(t.hqPopup);
       immdHqPolygon.setPopupContent(t.hqPopup);
-      // Switch map place-name label tiles to match the selected language
       updateLabelLayer(lang);
-    
+
       renderOptions(currentCategory, selectedIndex);
     }
-    
+
     // 7. Render Custom Transport Options
     function filterCategory(category, btnElement) {
-      currentCategory = category;
-      selectedIndex = 0;
-    
-      document.querySelectorAll('.tab-btn').forEach(b => {
-        b.classList.remove('active');
-      });
-    
-      if (btnElement) {
-        btnElement.classList.add('active');
-      }
-    // Clear parking polygons immediately when leaving the parking tab
-      if (category !== 'parking') {
-        clearParkingPolygons();
-      }
-        renderOptions(category, 0);
+        currentCategory = category;
+
+  // Keep your existing default route-selection behaviour.
+  selectedIndex = -1//category === 'mtr' || category === 'parking')
+    ? -1
+    : 0;
+
+    document.querySelectorAll('.tab-btn').forEach(button => {
+      button.classList.remove('active');
+    });
+
+    if (btnElement) {
+      btnElement.classList.add('active');
     }
-    
+
+    clearActiveRoute();
+
+    if (category !== 'parking') {
+      clearParkingPolygons();
+    }
+
+    if (category !== 'mtr') {
+      clearMtrPolygons();
+    }
+
+    renderOptions(category, selectedIndex);
+
+    // Reset AFTER renderOptions(), because selecting the default
+    // bus route calls selectRoute(), which changes the map view.
+    map.stop();
+    map.closePopup();
+
+    map.setView(originalMapCenter, originalMapZoom, {
+      animate: false
+    });
+  }
+
     function renderOptions(category, activeIndex) {
       const container = document.getElementById('options-container');
       container.innerHTML = '';
-    
+
       const items = transportData[category];
-    
+
       items.forEach((item, index) => {
         const stats = calculatePathStats(item.path);
-    
+
         const card = document.createElement('div');
-        card.className = 'route-card';
-    
+        card.className = 'route-card' + (index === activeIndex ? ' selected' : '');
+
         card.innerHTML = `
           <div>
             <div class="route-title">${item.name[currentLang]}</div>
@@ -862,16 +974,31 @@
             ${uiStrings[currentLang].routeEstimate(stats.mins, stats.meters)}
           </div>
         `;
-    
+
         card.onclick = () => selectRoute(item, card, index);
         container.appendChild(card);
-    
+
         if (index === activeIndex) {
           selectRoute(item, card, index);
         }
       });
+
+      const selectedItem = activeIndex >= 0 && items[activeIndex] ? items[activeIndex] : null;
+      if (category === 'mtr') {
+        clearParkingPolygons();
+        renderMtrPolygons(selectedItem ? selectedItem.id : null);
+      } else if (category === 'parking') {
+        clearMtrPolygons();
+        renderParkingPolygons(selectedItem ? selectedItem.id : null);
+      } else {
+        clearMtrPolygons();
+        clearParkingPolygons();
+      }
+
+      renderBusStops();
+      
     }
-    
+
     // 8. Draw Your Custom Waypoint Path and Turn Instructions
     function clearParkingPolygons() {
       if (parkingPolygons.length > 0) {
@@ -879,81 +1006,60 @@
         parkingPolygons = [];
       }
     }
-    
+
     function renderParkingPolygons(selectedParkId = null) {
       clearParkingPolygons();
-    
-      // Only render parking polygons when the Parking tab is active
+
       if (currentCategory !== 'parking') return;
-    
-      transportData.parking.forEach(park => {
+
+      transportData.parking.forEach((park, index) => {
         if (!park.polygon) return;
-    
+
         const isSelectedParking = park.id === selectedParkId;
         const poly = L.polygon(park.polygon, {
           color: park.color,
-          weight: isSelectedParking ? 3 : 2,
-          opacity: isSelectedParking ? 1 : 0.8,
+          weight: isSelectedParking ? 3.5 : 2.5,
+          opacity: isSelectedParking ? 1 : 0.85,
           fillColor: park.fillColor,
           fillOpacity: isSelectedParking ? 0.45 : 0.25
         })
           .addTo(map)
-          .bindPopup(`<b>${park.name[currentLang]}</b><br>${park.desc[currentLang]}`);
-    
+          .bindTooltip(park.name[currentLang], {
+            permanent: true,
+            direction: 'top',
+            className: 'route-step-tooltip'
+          });
+
+        poly.on('click', () => {
+          const cards = document.querySelectorAll('#options-container .route-card');
+          const targetCard = cards[index] || null;
+          selectRoute(park, targetCard, index);
+        });
+
         parkingPolygons.push(poly);
       });
     }
-    
+
     function selectRoute(item, cardElement, index) {
-      if (parkingPolygons.length > 0) {
-        parkingPolygons.forEach(poly => map.removeLayer(poly));
-        parkingPolygons = [];
-      }
-
-      transportData.parking.forEach(park => {
-        if (!park.polygon) return;
-
-        const isSelectedParking = park.id === item.id;
-        const poly = L.polygon(park.polygon, {
-          color: park.color,
-          weight: isSelectedParking ? 3 : 2,
-          opacity: isSelectedParking ? 1 : 0.8,
-          fillColor: park.fillColor,
-          fillOpacity: isSelectedParking ? 0.45 : 0.25
-        })
-          .addTo(map)
-          .bindPopup(`<b>${park.name[currentLang]}</b><br>${park.desc[currentLang]}`);
-
-        parkingPolygons.push(poly);
-      });
       selectedIndex = index;
-    
-      document.querySelectorAll('.route-card').forEach(card => {
-        card.classList.remove('selected');
+
+      document.querySelectorAll('#options-container .route-card').forEach((card, idx) => {
+        card.classList.toggle('selected', idx === index);
       });
-    
-      cardElement.classList.add('selected');
-    
-      if (currentLine) {
-        map.removeLayer(currentLine);
+      if (cardElement) {
+        cardElement.classList.add('selected');
       }
-    
-      if (startMarker) {
-        map.removeLayer(startMarker);
-      }
-    
-      if (routeStepMarkers.length > 0) {
-        routeStepMarkers.forEach(marker => map.removeLayer(marker));
-        routeStepMarkers = [];
-      }
-    
+
+      clearActiveRoute();
+
       currentLine = L.polyline(item.path, {
-        color: '#0066cc',
-        weight: 6,
-        opacity: 0.85,
-        dashArray: '10, 10'
+        color: '#ff0000',
+        weight: 12,
+        opacity: 0.5,
+        lineCap: 'round',
+        lineJoin: 'round'
       }).addTo(map);
-    
+
       if (item.steps) {
         item.steps.forEach(step => {
           const stepMarker = L.circleMarker(step.coords, {
@@ -969,37 +1075,49 @@
               className: 'route-step-tooltip'
             })
             .addTo(map);
-    
+
           routeStepMarkers.push(stepMarker);
         });
       }
-    // Replaces the old parkingPolygons loop/reset block
-      renderParkingPolygons(currentCategory === 'parking' ? item.id : null);
+
+      if (currentCategory === 'mtr') {
+        clearParkingPolygons();
+        renderMtrPolygons(item.id);
+      } else if (currentCategory === 'parking') {
+        clearMtrPolygons();
+        renderParkingPolygons(item.id);
+      } else {
+        clearMtrPolygons();
+        clearParkingPolygons();
+      }
+
       const stats = calculatePathStats(item.path);
-    
       const popupText =
         `<b>${uiStrings[currentLang].startPrefix}</b>` +
         `${item.name[currentLang]}<br>` +
         `<span style="color:#0066cc;font-weight:700;">` +
         `${uiStrings[currentLang].routeEstimate(stats.mins, stats.meters)}` +
         `</span>`;
-    
-      startMarker = L.circleMarker(item.path[0], {
-        radius: 8,
-        fillColor: '#ff5722',
-        color: '#ffffff',
-        weight: 2,
-        fillOpacity: 1
-      })
+      if (currentCategory === 'bus') {
+        // Refresh the circles so the selected stop is highlighted.
+        renderBusStops();
+      } else {
+        startMarker = L.circleMarker(item.path[0], {
+          radius: 8,
+          fillColor: '#ff5722',
+          color: '#ffffff',
+          weight: 2,
+          fillOpacity: 1
+        })
         .addTo(map)
         .bindPopup(popupText)
         .openPopup();
-    
+      }
       map.fitBounds(currentLine.getBounds(), { padding: [75, 75] });
     }
-    
+
     // Initialize default view
-    renderOptions('mtr', 0);
-</script>
+    renderOptions('mtr', -1);
+  </script>
 </body>
 </html>
