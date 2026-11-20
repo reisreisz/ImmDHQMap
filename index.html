@@ -603,7 +603,7 @@
             'en': 'Take lift/escalator to 1/F, walk past Tong Yin St Post Office to Admin Tower'
           },
           color: '#15803d',
-          fillColor: '#4ade80',
+          fillColor: '#789ee4',
           polygon: [
             [22.304482, 114.256707],
             [22.304482, 114.257067],
@@ -654,7 +654,7 @@
             'en': 'Close to new Immigration Headquarters (Enforcement Tower)'
           },
           color: '#15803d',
-          fillColor: '#4ade80',
+          fillColor: '#789ee4',
           polygon: [
             [22.3050396, 114.2546041],
             [22.3052672, 114.2552798],
@@ -705,7 +705,7 @@
             'en': '9 Tong Yin Street, Tseung Kwan O'
           },
           color: '#15803d',
-          fillColor: '#4ade80',
+          fillColor: '#789ee4',
           polygon: [
             [22.3081287, 114.2583976],
             [22.3074548, 114.2586440],
@@ -743,7 +743,7 @@
             'en': 'Vehicle entrance via Tong Tak Street'
           },
           color: '#15803d',
-          fillColor: '#4ade80',
+          fillColor: '#789ee4',
           polygon: [
             [22.3076687, 114.2580767],
             [22.3073353, 114.2570822],
@@ -774,7 +774,7 @@
             'en': 'Located on Tong Yin Street. Please follow on-site signs.'
           },
           color: '#15803d',
-          fillColor: '#4ade80',
+          fillColor: '#789ee4',
           polygon: [
             [22.3046717, 114.2579459],
             [22.3046717, 114.2585894],
@@ -1036,10 +1036,42 @@
       if (category !== 'mtr') clearMtrPolygons();
       setRoutePanelCollapsed(false);
       renderOptions(category, selectedIndex);
+      //map.stop();
+      //map.closePopup();
+      //map.setView(originalMapCenter, originalMapZoom, { animate: false });
       map.stop();
       map.closePopup();
-      map.setView(originalMapCenter, originalMapZoom, { animate: false });
-    }
+      
+      let targetCenter = originalMapCenter;
+      
+      if (category === 'parking') {
+        const governmentCarPark = transportData.parking.find(
+          park => park.id === 'park-gov-offices'
+        );
+      
+        if (governmentCarPark) {
+          if (
+            governmentCarPark.polygon &&
+            governmentCarPark.polygon.length
+          ) {
+            // Centre on the parking polygon's bounding box.
+            targetCenter = L.polygon(governmentCarPark.polygon)
+              .getBounds()
+              .getCenter();
+          } else if (
+            governmentCarPark.path &&
+            governmentCarPark.path.length
+          ) {
+            // Fallback if this parking area has no polygon.
+            targetCenter = governmentCarPark.path[0];
+          }
+        }
+      }
+      
+      map.setView(targetCenter, originalMapZoom, {
+        animate: false
+      });
+          }
 
     function renderOptions(category, activeIndex) {
       const container = document.getElementById('options-container');
@@ -1107,11 +1139,12 @@
         const poly = L.polygon(park.polygon, {
           color: park.color,
           weight: isSelectedParking ? 3.5 : 2.5,
-          opacity: isSelectedParking ? 1 : 0.85,
+          opacity: isSelectedParking ? 1 : 0.7,
           fillColor: park.fillColor,
           fillOpacity: isSelectedParking ? 0.45 : 0.25
         })
           .addTo(map)
+          
           .bindTooltip(park.name[currentLang], {
             permanent: true,
             direction: 'top',
