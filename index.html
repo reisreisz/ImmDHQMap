@@ -1148,13 +1148,13 @@
           weight: isSelectedParking ? 3.5 : 2.5,
           opacity: isSelectedParking ? 1 : 0.7,
           fillColor: park.fillColor,
-          fillOpacity: isSelectedParking ? 0.45 : 0.25
+          fillOpacity: isSelectedParking ? 0.95 : 0.5
         })
           .addTo(map)
           
           .bindTooltip(park.name[currentLang], {
             permanent: true,
-            direction: 'top',
+            direction: 'bottom',
             className: 'route-step-tooltip'
           });
 
