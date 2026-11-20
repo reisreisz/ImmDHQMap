@@ -818,7 +818,7 @@
 
     // 5. Initialize Map with Lands Department GeoCommunity Map Tiles
     const tkoBounds = L.latLngBounds(
-      [22.310852, 114.249772],
+      [22.307967, 114.249798],
       [22.301307, 114.264006]
     );
 
@@ -826,9 +826,16 @@
       zoomControl: false,
       maxBounds: tkoBounds,
       maxBoundsViscosity: 1.0,
-      minZoom: 15,
-      maxZoom: 19
-    }).setView([22.304825, 114.257536], 16);
+      minZoom: 13,
+      maxZoom: 19,
+      zoomSnap: 0.1
+    });
+    //.setView([22.304825, 114.257536], 16);
+    // Fit the whole area, with a 16 px margin on each side.
+      map.fitBounds(tkoBounds, {
+        padding: [16, 16],
+        animate: false
+      });
 
     // Save the actual initial view.
     const originalMapCenter = map.getCenter();
